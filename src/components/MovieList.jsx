@@ -9,11 +9,13 @@ export const MovieList = (props) => {
           <img src={movie.Poster} alt="movie"></img>
 
           <div
-            onClick={() => props.addMovie(movie)}
+            onClick={() => props.handleClick(movie)}
             className="overlay d-flex align-items-center justify-content-center"
           >
-            <span className="me-2"> 선호작 추가</span>
-            <span>💖</span>
+            <span className="me-2">
+              {props.addMovie ? "선호작 추가" : "선호작제거"}
+            </span>
+            <span>{props.addMovie ? "💖" : "❌"}</span>
           </div>
         </div>
       ))}

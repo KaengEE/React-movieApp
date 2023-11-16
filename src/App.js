@@ -47,6 +47,15 @@ function App() {
     saveToLocalStorage(newList);
   };
 
+  //선호작 제거
+  const removeMovie = (movie) => {
+    const newList = myMovies.filter(
+      (favorite) => favorite.imdbID !== movie.imdbID
+    );
+    setMyMovies(newList);
+    saveToLocalStorage(newList);
+  };
+
   return (
     <div className="container-fluid movie-app">
       <div className="row align-items-center my-4">
@@ -54,15 +63,18 @@ function App() {
         <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
       </div>
       <ScrollContainer className="row scroll-container">
-        {/* 영화가 없을때 */}
-        {movies && <MovieList movies={movies} addMovie={addMovie} />}
+        {movies && (
+          <MovieList movies={movies} handleClick={addMovie} add={true} />
+        )}
       </ScrollContainer>
       <div className="row align-items-center my-4">
         <MovieListHeading heading="내 선호작" />
       </div>
       <ScrollContainer className="row scroll-container">
-        {/* 영화가 없을때 */}
-        {movies && <MovieList movies={myMovies} />}
+        {/* 선호작*/}
+        {movies && (
+          <MovieList movies={myMovies} handleClick={removeMovie} add={false} />
+        )}
       </ScrollContainer>
     </div>
   );
