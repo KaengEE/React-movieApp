@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { MovieList } from "./components/MovieList";
 
 function App() {
-  const [movies, serMovies] = useState([
+  const [movies, setMovies] = useState([
     {
       Title: "The Lord of the Rings: The Return of the King",
       Year: "2003",
@@ -30,6 +30,19 @@ function App() {
         "https://m.media-amazon.com/images/M/MV5BMjYxYmRlZWYtMzAwNC00MDA1LWJjNTItOTBjMzlhNGMzYzk3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
     },
   ]);
+  //영화 데이터 가져오기
+  const getMovieRequest = async (searchValue) => {
+    const url = `https://www.omdbapi.com/?apikey=c9f35eb0&s=${searchValue}`;
+    const response = await fetch(url);
+    const responseJson = await response.json(); //JSON으로 변환
+    //영화정보를 업데이트하기
+    setMovies(responseJson.Search);
+  };
+
+  useEffect(() => {
+    getMovieRequest("iron");
+  }, []); //한번만 실행
+
   return (
     <div className="container-fluid movie-app">
       <div className="row">
