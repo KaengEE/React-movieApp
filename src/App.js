@@ -72,9 +72,7 @@ function App() {
       </div>
       <ScrollContainer className="row scroll-container">
         {/* 선호작*/}
-        {movies && (
-          <MovieList movies={myMovies} handleClick={removeMovie} add={false} />
-        )}
+        <MovieList movies={myMovies} handleClick={removeMovie} add={false} />
       </ScrollContainer>
     </div>
   );
