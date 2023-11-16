@@ -1,0 +1,13 @@
+body {
+  background: #141414;
+  color: white;
+}
+
+.movie-app > .row {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+
+.movie-app > .row > div {
+  width: fit-content;
+}

@@ -1,5 +1,7 @@
 import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import { MovieList } from "./components/MovieList";
 
 function App() {
   const [movies, serMovies] = useState([
@@ -28,6 +30,12 @@ function App() {
         "https://m.media-amazon.com/images/M/MV5BMjYxYmRlZWYtMzAwNC00MDA1LWJjNTItOTBjMzlhNGMzYzk3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
     },
   ]);
-  return <div>헬로우</div>;
+  return (
+    <div className="container-fluid movie-app">
+      <div className="row">
+        <MovieList movies={movies} />
+      </div>
+    </div>
+  );
 }
 export default App;
