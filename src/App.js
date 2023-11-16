@@ -7,32 +7,8 @@ import SearchBox from "./components/SearchBox";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 function App() {
-  const [movies, setMovies] = useState([
-    {
-      Title: "The Lord of the Rings: The Return of the King",
-      Year: "2003",
-      imdbID: "tt0167260",
-      Type: "movie",
-      Poster:
-        "https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
-    },
-    {
-      Title: "The Lion King",
-      Year: "1994",
-      imdbID: "tt0110357",
-      Type: "movie",
-      Poster:
-        "https://m.media-amazon.com/images/M/MV5BYTYxNGMyZTYtMjE3MS00MzNjLWFjNmYtMDk3N2FmM2JiM2M1XkEyXkFqcGdeQXVyNjY5NDU4NzI@._V1_SX300.jpg",
-    },
-    {
-      Title: "King Kong",
-      Year: "2005",
-      imdbID: "tt0360717",
-      Type: "movie",
-      Poster:
-        "https://m.media-amazon.com/images/M/MV5BMjYxYmRlZWYtMzAwNC00MDA1LWJjNTItOTBjMzlhNGMzYzk3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-    },
-  ]);
+  const [movies, setMovies] = useState([]);
+  const [myMovies, setMyMovies] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
   //영화 데이터 가져오기
@@ -51,15 +27,42 @@ function App() {
     }
   }, [searchValue]); //searchValue가 변경될때마다
 
+  useEffect(() => {
+    //처음 시작시 myMovies가 있으면 가져와서 초기값 입력
+    const movieLikes = JSON.parse(localStorage.getItem("myMovies"));
+    if (movieLikes) {
+      setMyMovies(movieLikes);
+    }
+  }, []);
+
+  //localStorage에 선호작 저장
+  const saveToLocalStorage = (items) => {
+    localStorage.setItem("myMovies", JSON.stringify(items));
+  };
+
+  //선호작 리스트(myMovies)에 새로운 영화 추가
+  const addMovie = (movie) => {
+    const newList = [...myMovies, movie];
+    setMyMovies(newList);
+    saveToLocalStorage(newList);
+  };
+
   return (
     <div className="container-fluid movie-app">
       <div className="row align-items-center my-4">
-        <MovieListHeading heading="Movies" />
+        <MovieListHeading heading="영화검색과 선호작 등록" />
         <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
       </div>
       <ScrollContainer className="row scroll-container">
         {/* 영화가 없을때 */}
-        {movies && <MovieList movies={movies} />}
+        {movies && <MovieList movies={movies} addMovie={addMovie} />}
+      </ScrollContainer>
+      <div className="row align-items-center my-4">
+        <MovieListHeading heading="내 선호작" />
+      </div>
+      <ScrollContainer className="row scroll-container">
+        {/* 영화가 없을때 */}
+        {movies && <MovieList movies={myMovies} />}
       </ScrollContainer>
     </div>
   );
