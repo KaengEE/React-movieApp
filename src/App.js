@@ -4,6 +4,7 @@ import "./App.css";
 import { MovieList } from "./components/MovieList";
 import MovieListHeading from "./components/MovieListHeading";
 import SearchBox from "./components/SearchBox";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 function App() {
   const [movies, setMovies] = useState([
@@ -56,10 +57,10 @@ function App() {
         <MovieListHeading heading="Movies" />
         <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
       </div>
-      <div className="row">
+      <ScrollContainer className="row scroll-container">
         {/* 영화가 없을때 */}
         {movies && <MovieList movies={movies} />}
-      </div>
+      </ScrollContainer>
     </div>
   );
 }
