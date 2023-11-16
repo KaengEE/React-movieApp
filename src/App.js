@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { MovieList } from "./components/MovieList";
+import MovieListHeading from "./components/MovieListHeading";
+import SearchBox from "./components/SearchBox";
 
 function App() {
   const [movies, setMovies] = useState([
@@ -30,6 +32,8 @@ function App() {
         "https://m.media-amazon.com/images/M/MV5BMjYxYmRlZWYtMzAwNC00MDA1LWJjNTItOTBjMzlhNGMzYzk3XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
     },
   ]);
+  const [searchValue, setSearchValue] = useState("");
+
   //영화 데이터 가져오기
   const getMovieRequest = async (searchValue) => {
     const url = `https://www.omdbapi.com/?apikey=c9f35eb0&s=${searchValue}`;
@@ -40,13 +44,21 @@ function App() {
   };
 
   useEffect(() => {
-    getMovieRequest("iron");
-  }, []); //한번만 실행
+    if (searchValue.length > 3) {
+      //3자 이상 검색
+      getMovieRequest(searchValue);
+    }
+  }, [searchValue]); //searchValue가 변경될때마다
 
   return (
     <div className="container-fluid movie-app">
+      <div className="row align-items-center my-4">
+        <MovieListHeading heading="Movies" />
+        <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
+      </div>
       <div className="row">
-        <MovieList movies={movies} />
+        {/* 영화가 없을때 */}
+        {movies && <MovieList movies={movies} />}
       </div>
     </div>
   );
